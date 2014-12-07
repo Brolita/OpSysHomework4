@@ -9,7 +9,7 @@ import os
 
 def main():
 	mode = -1;
-	modes = ["first", "best", "next", "worst"]
+	modes = ["first", "best", "next", "worst", "noncontig"]
 
 	if len(sys.argv) != 3 and len(sys.argv) != 4:
 		print "USAGE:", sys.argv[0], "[-q] <input-file> { first | best | next | worst }"

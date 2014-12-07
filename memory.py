@@ -21,7 +21,6 @@ class Memory:
 		self.mode = mode
 		self.seeker = 80
 		self.end = 1600
-		self.isDefragmented = True
 		
 	def __str__(self):
 		rv = ''
@@ -35,14 +34,18 @@ class Memory:
 		'''
 		if self.mode is Mode.first:
 			# check if theres enough memory in the front
+			
 			if self.end - self.seeker >= mem:
 				for i in range(mem):
 					self._value[self.seeker] = pid
-					self.seeker++;
+					self.seeker++
 			else: 
 				self.defragment()
 				self.insert(pid, mem)
-				
+		
+		'''
+		BEST AVAILIBLE SPACE
+		'''
 		if self.mode is Mode.best:
 			# find all the spaces and find the lowest
 			
@@ -61,13 +64,74 @@ class Memory:
 				self.seeker = open[0]
 				for i in range(mem):
 					self._value[self.seeker] = pid
-					self.seeker++;
+					self.seeker++
+		
+		'''
+		NEXT AVAILIBLE SPACE
+		'''		
+		if self.mode is Mode.next:
+			# find the next big enough memory space
+			
+			hit = self.hit()
+			hit.insert(0,0)
+			for i in xrange(len(hit) / 2):
+				if hit[2*i+1] - hit[2*i] > mem:
+					self.seeker = hit[2*i + 1]
+					for i in range(mem):
+						self._value[self.seeker] = pid
+						self.seeker++
+					return
+			
+			self.defragment()
+			self.insert(pid, mem)		
+		
+		'''
+		WORST AVAILIBLE SPACE
+		'''
+		if self.mode is Mode.best:
+			# find all the spaces and find the lowest
+			
+			open = (-1,self.end)
+			hit = self.hit()
+			hit.insert(0,0)
+			for i in xrange(len(hit) / 2):
+				if hit[2*i+1] - hit[2*i] > mem and hit[2*i+1] - hit[2*i] > open[1]:
+					open = hit[2*i], hit[2*i+1] - hit[2*i]
+				
+			if open[0] < 0:
+				self.defragment()
+				self.insert(pid, mem)
+			
+			else:
+				self.seeker = open[0]
+				for i in range(mem):
+					self._value[self.seeker] = pid
+					self.seeker++
+		
+		'''
+		NONCONTIGUOUS 
+		'''
+		
+		if self.mode is Mode.noncontig:
+			# start insertion at next availible place
+			
+			i = 0
+			while mem > 0:
+				if self._value[i] == '.':
+					self._value[i] = pid
+					mem -= 1
+				i += 1
+				if i == 1600:
+					break
+					
+			if mem != 0:
+				self.remove(pid)
+				raise FragmentationError()
 	
 	def remove(self, pid):
-		if self.mode is not Mode.noncontig:
-			for i xrange(self.end):
-				if self._value[i] == pid:
-					self.value[i] = '.'
+		for i xrange(self.end):
+			if self._value[i] == pid:
+				self.value[i] = '.'
 		
 	def hit(self):
 		hit = [];

@@ -11,16 +11,21 @@ import Process,memory
 allProcesses = []
 #time in milliseconds
 t = 0
+numberOfProcesses = 0
 
-def parseFile():
-	file = sys.argv[1]
+def parseFile(file):
 	print file
-	for line in file:
+	for line in open(file, "r"):
+		if(len(line) == 2 ):
+		
+			numberOfProcesses = int(str(line))
+			continue
+			
 		args = line.split()
 		print args
 		name = args.pop()
 		numOfFrames = args.pop()
-		newPro = Process(name, numOfFrames, args)
+		newPro = Process.Process(name, numOfFrames, args)
 		allProcesses.append(newPro)
 		
 def main():
@@ -37,6 +42,11 @@ def main():
 		sys.exit(0)
 	if len(sys.argv) == 4 and sys.argv[1] == '-q':
 		isUserMode = True
+		#parse the input based on which argv is your file is in
+		parseFile(sys.argv[2])
+	else:
+		#parse the input based on which argv is your file is in
+		parseFile(sys.argv[1])
 	mode = modes.index(sys.argv[len(sys.argv) - 1])
 	
 	if mode == -1:
@@ -48,8 +58,8 @@ def main():
 		sys.exit(0)
 	
 	#read through the file in argv[1] and make new processes which are added to allProcesses
-	parseFile()
-	memory = self.Memory()
+	
+	mem = memory.Memory()
 	userT = 1600;
 	
 	while true:

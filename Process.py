@@ -10,9 +10,9 @@ class Process:
 		i=0
 		for int in _eventTimes:
 			if i%2 == 0:
-				arrivalTimes.append(int)
+				self.arrivalTimes.append(int)
 			else:
-				exitTimes.append(int)
+				self.exitTimes.append(int)
 			i+= 1
 		
 		

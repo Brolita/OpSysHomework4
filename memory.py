@@ -1,8 +1,8 @@
-from enum import Enum
-class Mode(Enum):
-    first = 0
-    best = 1
-    next = 2
+#from enum import Enum
+class Mode():
+	first = 0
+	best = 1
+	next = 2
 	worst = 3
 	noncontig = 4
 
@@ -16,7 +16,7 @@ class Memory:
 		for i in xrange(1600):
 			if i < 80:
 				self._value += '#'
-			else
+			else:
 				self._value += '.'
 		self.mode = mode
 		self.seeker = 80
@@ -38,7 +38,7 @@ class Memory:
 			if self.end - self.seeker >= mem:
 				for i in range(mem):
 					self._value[self.seeker] = pid
-					self.seeker++
+					self.seeker+=1
 			else: 
 				self.defragment()
 				self.insert(pid, mem)
@@ -64,7 +64,7 @@ class Memory:
 				self.seeker = open[0]
 				for i in range(mem):
 					self._value[self.seeker] = pid
-					self.seeker++
+					self.seeker+=1
 		
 		'''
 		NEXT AVAILIBLE SPACE
@@ -79,7 +79,7 @@ class Memory:
 					self.seeker = hit[2*i + 1]
 					for i in range(mem):
 						self._value[self.seeker] = pid
-						self.seeker++
+						self.seeker+=1
 					return
 			
 			self.defragment()
@@ -106,7 +106,7 @@ class Memory:
 				self.seeker = open[0]
 				for i in range(mem):
 					self._value[self.seeker] = pid
-					self.seeker++
+					self.seeker+=1
 		
 		'''
 		NONCONTIGUOUS 
@@ -129,7 +129,7 @@ class Memory:
 				raise FragmentationError()
 	
 	def remove(self, pid):
-		for i xrange(self.end):
+		for i in xrange(self.end):
 			if self._value[i] == pid:
 				self.value[i] = '.'
 		
@@ -139,6 +139,7 @@ class Memory:
 		for seek in xrange(self.end):
 			if (self._value[seek] == '.') != open:
 				# a switch on hitting blocks of memory
+				open = not open
 				hit.append(seek)
 			
 		hit.append(self.end)

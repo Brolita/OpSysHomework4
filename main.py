@@ -51,10 +51,10 @@ def main():
 		
 		#check against all processes that need to arrive
 		
-		#check for user input
+		#check for user input if not quiet 
 		
 		#increment time
-		t+= 0
+		t+= 1
 	
 
 		

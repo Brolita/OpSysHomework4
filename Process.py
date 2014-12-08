@@ -9,7 +9,7 @@ class Process:
 		#parse _eventTimes into arrival and exitTimes
 		i=0
 		for int in _eventTimes:
-			if i%2 = 0:
+			if i%2 == 0:
 				arrivalTimes.append(int)
 			else:
 				exitTimes.append(int)

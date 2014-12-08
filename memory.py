@@ -76,11 +76,10 @@ class Memory:
 		'''		
 		if self.mode is Mode.next:
 			# check if theres enough memory in the front
-			
+			print mem
 			if self.end - self.seeker >= mem:
-				for i in range(mem):
-					self._value[self.seeker] = pid
-					self.seeker+=1
+				self._value = self._value[:self.seeker] + pid * mem + self._value[self.seeker + mem:]
+				self.seeker+=mem
 			else: 
 				self.defragment()
 				self.insert(pid, mem)	
@@ -131,7 +130,7 @@ class Memory:
 	def remove(self, pid):
 		for i in xrange(self.end):
 			if self._value[i] == pid:
-				self.value[i] = '.'
+				self._value = self._value[:i] + pid + self._value[i + 1:]
 		
 	def hit(self):
 		hit = [];

@@ -19,9 +19,8 @@ def parseFile(file):
 			numberOfProcesses = int(str(line))
 			continue
 			
-		print args
-		name = args.pop()
-		numOfFrames = args.pop()
+		name = args.pop(0)
+		numOfFrames = args.pop(0)
 		newPro = Process.Process(name, numOfFrames, args)
 		allProcesses.append(newPro)
 		
@@ -64,12 +63,13 @@ def main():
 	
 	while True:
 		#check against all processes that need to exit
+		
 		shouldPrint = False	
 		for process in allProcesses:
 			for exitTime in process.exitTimes:
 				if t == exitTime:
 					shouldPrint = True
-					memory.remove(process)
+					mem.remove(process.id)
 		
 		
 		#check against all processes that need to arrive
@@ -77,18 +77,17 @@ def main():
 			for exitTime in process.exitTimes:
 				if t == exitTime:#error check
 					shouldPrint = True
-					memory.insert(process)
+					mem.insert(process.id, process.frames)
 		
 		#check for user input
 		if isUserMode:
 			if t >= userT:
 				shouldPrint = True
 				newUserT = input()
-				print newUserT
 				userT = newUserT
 		if shouldPrint:
 			print "Memory at time ", t
-			print memory
+			print mem
 		
 		#increment time
 		t+= 1

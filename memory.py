@@ -33,15 +33,20 @@ class Memory:
 		FIRST AVAILIBLE SPACE
 		'''
 		if self.mode is Mode.first:
-			# check if theres enough memory in the front
+			# find the next big enough memory space
 			
-			if self.end - self.seeker >= mem:
-				for i in range(mem):
-					self._value[self.seeker] = pid
-					self.seeker+=1
-			else: 
-				self.defragment()
-				self.insert(pid, mem)
+			hit = self.hit()
+			hit.insert(0,0)
+			for i in xrange(len(hit) / 2):
+				if hit[2*i+1] - hit[2*i] > mem:
+					self.seeker = hit[2*i + 1]
+					for i in range(mem):
+						self._value[self.seeker] = pid
+						self.seeker+=1
+					return
+			
+			self.defragment()
+			self.insert(pid, mem)	
 		
 		'''
 		BEST AVAILIBLE SPACE
@@ -70,20 +75,15 @@ class Memory:
 		NEXT AVAILIBLE SPACE
 		'''		
 		if self.mode is Mode.next:
-			# find the next big enough memory space
+			# check if theres enough memory in the front
 			
-			hit = self.hit()
-			hit.insert(0,0)
-			for i in xrange(len(hit) / 2):
-				if hit[2*i+1] - hit[2*i] > mem:
-					self.seeker = hit[2*i + 1]
-					for i in range(mem):
-						self._value[self.seeker] = pid
-						self.seeker+=1
-					return
-			
-			self.defragment()
-			self.insert(pid, mem)		
+			if self.end - self.seeker >= mem:
+				for i in range(mem):
+					self._value[self.seeker] = pid
+					self.seeker+=1
+			else: 
+				self.defragment()
+				self.insert(pid, mem)	
 		
 		'''
 		WORST AVAILIBLE SPACE
@@ -157,6 +157,8 @@ class Memory:
 		
 		for i in xrange(len(hit) / 2):
 			newvalue += self._value[hit[2*i]:hit[2*i+1]]
+			
+		self.seeker = len(newvalue)
 			
 		for i in xrange(self.end - len(newvalue)):
 			newvalue += '.';

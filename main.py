@@ -9,19 +9,16 @@ import os
 import Process,memory
 
 allProcesses = []
-#time in milliseconds
-t = 0
 numberOfProcesses = 0
 
 def parseFile(file):
 	print file
 	for line in open(file, "r"):
-		if(len(line) == 2 ):
-		
+		args = line.split()
+		if(len(args) == 1 ):
 			numberOfProcesses = int(str(line))
 			continue
 			
-		args = line.split()
 		print args
 		name = args.pop()
 		numOfFrames = args.pop()
@@ -29,6 +26,9 @@ def parseFile(file):
 		allProcesses.append(newPro)
 		
 def main():
+	#time in milliseconds
+	t = 0
+
 	mode = -1;
 	modes = ["first", "best", "next", "worst", "noncontig"]
 	isUserMode = False
@@ -59,10 +59,10 @@ def main():
 	
 	#read through the file in argv[1] and make new processes which are added to allProcesses
 	
-	mem = memory.Memory()
-	userT = 1600;
+	mem = memory.Memory(mode)
+	userT = 0;
 	
-	while true:
+	while True:
 		#check against all processes that need to exit
 		shouldPrint = False	
 		for process in allProcesses:
@@ -91,7 +91,7 @@ def main():
 			print memory
 		
 		#increment time
-		t+= 0
+		t+= 1
 	
 main()
 		

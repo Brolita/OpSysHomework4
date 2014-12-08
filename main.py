@@ -8,6 +8,13 @@ import sys
 import os
 import Process,memory
 
+class FragmentationError(Exception):
+	def __init__(self, pid, mem):
+		self.pid = pid
+		self.mem = mem
+	def __str__(self):
+		return "Fragmentation error in main memory"
+
 allProcesses = []
 numberOfProcesses = 0
 
@@ -78,7 +85,15 @@ def main():
 			for arrivalTime in process.arrivalTimes:
 				if t == arrivalTime:#error check
 					shouldPrint = True
-					mem.insert(process.id, process.frames)
+					try:
+						mem.insert(process.id, process.frames)
+					except FragmentationError as e:
+						print "ERROR: OUT OF MEMORY"
+						print "Caused trying to insert"
+						print e.pid, "Memory size of", e.mem
+						print "Memory at crash:"
+						print mem
+						exit(0)
 		
 		#check for user input
 		if isUserMode:

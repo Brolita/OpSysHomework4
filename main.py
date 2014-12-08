@@ -59,8 +59,8 @@ def main():
 	#read through the file in argv[1] and make new processes which are added to allProcesses
 	
 	mem = memory.Memory(mode)
-	userT = 0;
-	
+	userT = -1;
+	shouldExit = False
 	while True:
 		#check against all processes that need to exit
 		
@@ -69,29 +69,39 @@ def main():
 			for exitTime in process.exitTimes:
 				if t == exitTime:
 					shouldPrint = True
+					process.exitTimes.remove(exitTime)
 					mem.remove(process.id)
 		
 		
 		#check against all processes that need to arrive
 		for process in allProcesses:
-			for exitTime in process.exitTimes:
-				if t == exitTime:#error check
+			for arrivalTime in process.arrivalTimes:
+				if t == arrivalTime:#error check
 					shouldPrint = True
 					mem.insert(process.id, process.frames)
 		
 		#check for user input
 		if isUserMode:
-			if t >= userT:
+			if t == 0:
+				shouldExit = True;
+			if t >= userT or userT == -1:
 				shouldPrint = True
 				newUserT = input()
 				userT = newUserT
 		if shouldPrint:
 			print "Memory at time ", t
 			print mem
+		tempShouldExit = True;
+		for process in allProcesses:
+			if len(process.exitTimes) > 0:
+				tempShouldExit = False
+		shouldExit = tempShouldExit
+		
 		
 		#increment time
 		t+= 1
-	
+		if shouldExit:
+			break
 main()
 		
 		

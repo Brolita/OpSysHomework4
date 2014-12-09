@@ -19,7 +19,6 @@ allProcesses = []
 numberOfProcesses = 0
 
 def parseFile(file):
-	print file
 	for line in open(file, "r"):
 		args = line.split()
 		if(len(args) == 1 ):
@@ -42,7 +41,6 @@ def main():
 		print "USAGE:", sys.argv[0], "[-q] <input-file> { first | best | next | worst | noncontig }"
 		sys.exit(0)
 		
-	print "hi"
 	if len(sys.argv) == 4 and sys.argv[1] != '-q':
 		print "USAGE:", sys.argv[0], "[-q] <input-file> { first | best | next | worst | noncontig }"
 		sys.exit(0)
@@ -53,7 +51,10 @@ def main():
 	else:
 		#parse the input based on which argv is your file is in
 		parseFile(sys.argv[1])
-	mode = modes.index(sys.argv[len(sys.argv) - 1])
+	try:
+		mode = modes.index(sys.argv[len(sys.argv) - 1])
+	except ValueError:
+		mode = -1
 	
 	if mode == -1:
 		print "USAGE:", sys.argv[0], "[-q] <input-file> { first | best | next | worst | noncontig }"
@@ -97,7 +98,7 @@ def main():
 		
 		#check for user input
 		if isUserMode:
-			if t == 0:
+			if userT == 0:
 				shouldExit = True;
 			if t >= userT or userT == -1:
 				shouldPrint = True

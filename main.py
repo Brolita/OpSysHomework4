@@ -101,10 +101,9 @@ def main():
 			if userT == 0:
 				break
 			if t >= userT or userT == -1:
-				print t
-				print userT
 				print "Memory at time ", t
 				print mem
+				
 				newUserT = input()
 				userT = newUserT
 		if shouldPrint:

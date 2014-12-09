@@ -1,4 +1,9 @@
-#from enum import Enum
+''' 
+	Corey Byrne
+	Spencer Johnson
+	Aleksandr Han
+'''
+
 class Mode():
 	first = 0
 	best = 1

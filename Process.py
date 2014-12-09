@@ -1,3 +1,9 @@
+''' 
+	Corey Byrne
+	Spencer Johnson
+	Aleksandr Han
+'''
+
 class Process:
 	def __init__(self, _id, _frames, _eventTimes ):
 		self.id = _id

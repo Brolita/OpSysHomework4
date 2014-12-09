@@ -99,9 +99,12 @@ def main():
 		#check for user input
 		if isUserMode:
 			if userT == 0:
-				shouldExit = True;
+				break
 			if t >= userT or userT == -1:
-				shouldPrint = True
+				print t
+				print userT
+				print "Memory at time ", t
+				print mem
 				newUserT = input()
 				userT = newUserT
 		if shouldPrint:

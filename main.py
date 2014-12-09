@@ -36,7 +36,7 @@ def main():
 
 	mode = -1;
 	modes = ["first", "best", "next", "worst", "noncontig"]
-	isUserMode = False
+	isUserMode = True
 	if len(sys.argv) != 3 and len(sys.argv) != 4:
 		print "USAGE:", sys.argv[0], "[-q] <input-file> { first | best | next | worst | noncontig }"
 		sys.exit(0)
@@ -44,8 +44,9 @@ def main():
 	if len(sys.argv) == 4 and sys.argv[1] != '-q':
 		print "USAGE:", sys.argv[0], "[-q] <input-file> { first | best | next | worst | noncontig }"
 		sys.exit(0)
+	
 	if len(sys.argv) == 4 and sys.argv[1] == '-q':
-		isUserMode = True
+		isUserMode = False
 		#parse the input based on which argv is your file is in
 		parseFile(sys.argv[2])
 	else:

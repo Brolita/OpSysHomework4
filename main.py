@@ -104,8 +104,16 @@ def main():
 			if t >= userT or userT == -1:
 				print "Memory at time ", t
 				print mem
-				
-				newUserT = input()
+				while True:
+					
+					try:
+						newUserT = input()
+						break
+					except SyntaxError:
+						print "Please input a number"
+					except NameError:
+						print "Please input a number"
+						
 				userT = newUserT
 		if shouldPrint:
 			print "Memory at time ", t
